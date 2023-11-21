@@ -1,0 +1,8 @@
+CREATE TABLE user
+(
+    id INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    external_id VARCHAR(50) NOT NULL,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    birthday DATETIME NOT NULL
+);

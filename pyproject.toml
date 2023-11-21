@@ -1,0 +1,85 @@
+[tool.coverage.run]
+omit = [
+  "tests/*",
+]
+concurrency = [
+  "thread",
+  "greenlet",
+]
+
+[tool.coverage.report]
+fail_under = 80
+skip_empty = true
+
+[tool.isort]
+profile = "black"
+skip_gitignore = true
+
+[tool.mypy]
+plugins = [
+  "pydantic.mypy"
+]
+
+python_version = "3.11"
+
+# strict
+check_untyped_defs = true
+disallow_any_generics = true
+disallow_incomplete_defs = true
+disallow_subclassing_any = true
+disallow_untyped_calls = true
+disallow_untyped_decorators = true
+disallow_untyped_defs = true
+extra_checks = true
+no_implicit_reexport = true
+strict_equality = true
+warn_redundant_casts = true
+warn_return_any = true
+warn_unused_configs = true
+warn_unused_ignores = true
+
+[tool.pydantic-mypy]
+init_forbid_extra = true
+init_typed = true
+warn_required_dynamic_aliases = true
+warn_untyped_fields = true
+
+[tool.pylint.'MESSAGES CONTROL']
+extension-pkg-whitelist = "pydantic"
+
+[project]
+requires-python = ">=3.11"
+classifiers = [
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+]
+dependencies = [
+    "aiomysql",
+    "aioprometheus[starlette]",
+    "fastapi",
+    "pydantic",
+    "pydantic-settings",
+    "sqlalchemy[asyncio]",
+    "uvicorn[standard]",
+    "cryptography>=41.0.5",
+]
+
+[build-system]
+build-backend = "pdm.backend"
+requires = [
+  "pdm-backend",
+]
+
+[tool.pdm.dev-dependencies]
+format_and_check = [
+  "black",
+  "coverage[toml]",
+  "isort",
+  "mypy",
+  "types-requests",
+]
+test = [
+  "aiosqlite",
+  "httpx",
+]

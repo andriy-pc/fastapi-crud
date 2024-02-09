@@ -149,12 +149,12 @@ class TestUserCrud(unittest.IsolatedAsyncioTestCase):
                 )
 
     async def test_update_by_id(self) -> None:
-        update_user_request_body = {"first_name": "updated", "last_name": "updated"}
+        update_user_request_body = {"firstName": "updated", "lastName": "updated"}
         async with generate_async_engine():
             async with _async_session_maker() as session:
                 user = await save_user(session)
 
-            response = client.put(
+            response = client.patch(
                 f"/v1/users/{user.external_id}", json=update_user_request_body
             )
 

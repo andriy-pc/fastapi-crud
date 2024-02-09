@@ -4,7 +4,7 @@ Simple CRUD project using:
 * Python 3.11 
 * FastAPI
 * SQLAlchemy
-* SQLLight 
+* MySQL (primary DB provider) / SQLLight (for testing) 
 * Pydantic 
 * PDM
 * aioprometheus

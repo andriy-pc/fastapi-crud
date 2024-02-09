@@ -9,7 +9,7 @@ def to_camel_case(snake_case: str) -> str:
     return words[0] + "".join([word.capitalize() for word in words[1:]])
 
 
-class UserDto(BaseModel):
+class UpdateUserRequest(BaseModel):
     id: str | None = None
     first_name: str | None = None
     last_name: str | None = None

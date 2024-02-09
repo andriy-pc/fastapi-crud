@@ -9,7 +9,7 @@ from starlette.responses import Response
 
 from simplecrud.database.database_setup import get_session
 from simplecrud.database.model import User
-from simplecrud.schema import UserDto
+from simplecrud.schema import UpdateUserRequest
 
 router = APIRouter(prefix="/v1/users", tags=["user"])
 
@@ -19,7 +19,7 @@ router = APIRouter(prefix="/v1/users", tags=["user"])
 )
 async def get_user_by_id(
     user_id: str, async_session: Annotated[AsyncSession, Depends(get_session)]
-) -> UserDto:
+) -> UpdateUserRequest:
     async with async_session.begin():
         user = await async_session.scalar(
             select(User).where(User.external_id == user_id)
@@ -31,7 +31,7 @@ async def get_user_by_id(
             detail=f"User with id '{user_id}' doesn't exist",
         )
 
-    return UserDto(
+    return UpdateUserRequest(
         id=user.external_id,
         first_name=user.first_name,
         last_name=user.last_name,
@@ -41,8 +41,9 @@ async def get_user_by_id(
 
 @router.post(path="", response_model_exclude_none=True, status_code=HTTPStatus.CREATED)
 async def save_user(
-    user_dto: UserDto, async_session: Annotated[AsyncSession, Depends(get_session)]
-) -> UserDto:
+    user_dto: UpdateUserRequest,
+    async_session: Annotated[AsyncSession, Depends(get_session)],
+) -> UpdateUserRequest:
     async with async_session.begin():
         user = User(
             external_id=token_urlsafe(16),
@@ -51,17 +52,17 @@ async def save_user(
             birthday=user_dto.birthday,
         )
         async_session.add(user)
-        return UserDto(id=user.external_id)
+        return UpdateUserRequest(id=user.external_id)
 
 
-@router.put(
+@router.patch(
     path="/{user_id}",
     response_model_exclude_none=True,
     status_code=HTTPStatus.NO_CONTENT,
 )
 async def update_by_id(
     user_id: str,
-    user_dto: UserDto,
+    user_dto: UpdateUserRequest,
     async_session: Annotated[AsyncSession, Depends(get_session)],
 ) -> Response:
     async with async_session.begin():
@@ -74,15 +75,9 @@ async def update_by_id(
                 detail=f"User with id '{user_id}' doesn't exist",
             )
 
-        user_to_update.first_name = get_not_none(
-            user_dto.first_name, user_to_update.first_name
-        )
-        user_to_update.last_name = get_not_none(
-            user_dto.last_name, user_to_update.last_name
-        )
-        user_to_update.birthday = get_not_none(
-            user_dto.birthday, user_to_update.birthday
-        )
+        user_to_update.first_name = user_dto.first_name or user_to_update.first_name
+        user_to_update.last_name = user_dto.last_name or user_to_update.last_name
+        user_to_update.birthday = user_dto.birthday or user_to_update.birthday
 
     return Response(status_code=HTTPStatus.NO_CONTENT.value)
 

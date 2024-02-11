@@ -1,4 +1,3 @@
-from pydantic import MySQLDsn
 from pydantic_settings import SettingsConfigDict
 
 

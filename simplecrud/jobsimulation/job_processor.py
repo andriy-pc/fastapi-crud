@@ -5,7 +5,7 @@ import time
 from asyncio import Task
 from contextlib import asynccontextmanager
 from secrets import token_urlsafe
-from typing import AsyncGenerator, Any, Set
+from typing import Any, AsyncGenerator, Set
 
 from pydantic import BaseModel
 
@@ -35,10 +35,10 @@ async def print_job_processor() -> None:
             global _job_handler_tasks
             print_job = await find_print_job()
             if print_job is not None:
-                log.info(f"Found new job to process. Currently running {len(_job_handler_tasks)} jobs")
-                job_handler_task = asyncio.create_task(
-                    print_job_handler(print_job)
+                log.info(
+                    f"Found new job to process. Currently running {len(_job_handler_tasks)} jobs"
                 )
+                job_handler_task = asyncio.create_task(print_job_handler(print_job))
                 _job_handler_tasks.add(job_handler_task)
                 job_handler_task.add_done_callback(print_job_post_process)
             else:
@@ -51,10 +51,11 @@ async def print_job_processor() -> None:
     log.info("job_processor shutdown")
 
 
-async def find_print_job() -> PrintJob:
+async def find_print_job() -> PrintJob | None:
     job: PrintJob | None = None
-    if (len(_job_handler_tasks) == 0
-            or (len(_job_handler_tasks) < 5 and random.randint(0, 1000) % 17 == 0)):
+    if len(_job_handler_tasks) == 0 or (
+        len(_job_handler_tasks) < 5 and random.randint(0, 1000) % 17 == 0
+    ):
         log.info("Creating job...")
         job = PrintJob(id=token_urlsafe(16))
 
@@ -66,7 +67,9 @@ async def print_job_handler(job: PrintJob) -> None:
     start_time = time.perf_counter()
     await asyncio.sleep(random.randint(0, 120))
     end_time = time.perf_counter()
-    log.info(f"Job finished successfully in {end_time - start_time} seconds. Job: {job}")
+    log.info(
+        f"Job finished successfully in {end_time - start_time} seconds. Job: {job}"
+    )
 
 
 def print_job_post_process(task: asyncio.Task[None]) -> None:
@@ -80,6 +83,7 @@ def print_job_post_process(task: asyncio.Task[None]) -> None:
         log.exception(f"Exception raised by task: {task.get_name()}")
     _job_handler_tasks.discard(task)
 
+
 @asynccontextmanager
 async def generate_job_processor() -> AsyncGenerator[None, None]:
     print_job_processor_task = asyncio.create_task(print_job_processor())
@@ -90,9 +94,7 @@ async def generate_job_processor() -> AsyncGenerator[None, None]:
         global _shutdown, _shutdown_start_time
         _shutdown_start_time = time.perf_counter()
         _shutdown = True
-        while (
-                not print_job_processor_task.done()
-        ):
+        while not print_job_processor_task.done():
             if time.perf_counter() - _shutdown_start_time > 15.0:
                 log.info("Graceful shutdown wait time exceeded, cancelling tasks")
                 break

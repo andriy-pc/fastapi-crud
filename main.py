@@ -7,8 +7,8 @@ from aioprometheus.asgi.starlette import metrics
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from simplecrud import user_crud
 from simplecrud.lifespan import lifespan
+from simplecrud.router import health, user_crud
 from simplecrud.util.logging_util import setup_json_formatted_logging
 
 setup_json_formatted_logging()
@@ -24,6 +24,7 @@ app.add_middleware(
 )
 
 app.include_router(user_crud.router)
+app.include_router(health.router)
 
 app.add_middleware(MetricsMiddleware)
 app.add_route("/_health/metrics", metrics)

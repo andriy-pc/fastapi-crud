@@ -4,8 +4,8 @@
 [metadata]
 groups = ["default", "format_and_check", "test"]
 strategy = ["cross_platform"]
-lock_version = "4.4"
-content_hash = "sha256:00cf68b735dd0f2f73fab50831f3e927c75cc51d1fa287b9587db745a90fa964"
+lock_version = "4.4.1"
+content_hash = "sha256:5c9f94ccd1fcf840ac80e663f214297f78d1f3faa83cca9a616bcf2ab9872f21"
 
 [[package]]
 name = "aiomysql"
@@ -100,6 +100,36 @@ files = [
     {file = "black-23.11.0-cp311-cp311-win_amd64.whl", hash = "sha256:58e5f4d08a205b11800332920e285bd25e1a75c54953e05502052738fe16b3b5"},
     {file = "black-23.11.0-py3-none-any.whl", hash = "sha256:54caaa703227c6e0c87b76326d0862184729a69b73d3b7305b6288e1d830067e"},
     {file = "black-23.11.0.tar.gz", hash = "sha256:4c68855825ff432d197229846f971bc4d6666ce90492e5b02013bcaca4d9ab05"},
+]
+
+[[package]]
+name = "boto3"
+version = "1.34.45"
+requires_python = ">= 3.8"
+summary = "The AWS SDK for Python"
+dependencies = [
+    "botocore<1.35.0,>=1.34.45",
+    "jmespath<2.0.0,>=0.7.1",
+    "s3transfer<0.11.0,>=0.10.0",
+]
+files = [
+    {file = "boto3-1.34.45-py3-none-any.whl", hash = "sha256:5c96bed1269f77788780aa2005811dc3a37d4122f08b8e54063a1f4c1b9314a1"},
+    {file = "boto3-1.34.45.tar.gz", hash = "sha256:46432fd506708fec6caec4392d758c6f5b79a376dee67d3284fe8b6bfbafeaf4"},
+]
+
+[[package]]
+name = "botocore"
+version = "1.34.45"
+requires_python = ">= 3.8"
+summary = "Low-level, data-driven core of boto 3."
+dependencies = [
+    "jmespath<2.0.0,>=0.7.1",
+    "python-dateutil<3.0.0,>=2.1",
+    "urllib3<2.1,>=1.25.4; python_version >= \"3.10\"",
+]
+files = [
+    {file = "botocore-1.34.45-py3-none-any.whl", hash = "sha256:e17874ac708fef295d2ea16bb2570ea0512c920de9f25f796de0d8c778f06a02"},
+    {file = "botocore-1.34.45.tar.gz", hash = "sha256:bf4fe24dd00a6262a27573dea1690ea68eb20f939e7086effadf19aa1acb44d1"},
 ]
 
 [[package]]
@@ -394,6 +424,16 @@ files = [
 ]
 
 [[package]]
+name = "jmespath"
+version = "1.0.1"
+requires_python = ">=3.7"
+summary = "JSON Matching Expressions"
+files = [
+    {file = "jmespath-1.0.1-py3-none-any.whl", hash = "sha256:02e2e4cc71b5bcab88332eebf907519190dd9e6e82107fa7f83b1003a6252980"},
+    {file = "jmespath-1.0.1.tar.gz", hash = "sha256:90261b206d6defd58fdd5e85f478bf633a2901798906be2ad389150c5c60edbe"},
+]
+
+[[package]]
 name = "mypy"
 version = "1.7.0"
 requires_python = ">=3.8"
@@ -603,6 +643,19 @@ files = [
 ]
 
 [[package]]
+name = "python-dateutil"
+version = "2.8.2"
+requires_python = "!=3.0.*,!=3.1.*,!=3.2.*,>=2.7"
+summary = "Extensions to the standard Python datetime module"
+dependencies = [
+    "six>=1.5",
+]
+files = [
+    {file = "python-dateutil-2.8.2.tar.gz", hash = "sha256:0123cacc1627ae19ddf3c27a5de5bd67ee4586fbdd6440d9748f8abb483d3e86"},
+    {file = "python_dateutil-2.8.2-py2.py3-none-any.whl", hash = "sha256:961d03dc3453ebbc59dbdea9e4e11c5651520a876d0f4db161e8674aae935da9"},
+]
+
+[[package]]
 name = "python-dotenv"
 version = "1.0.0"
 requires_python = ">=3.8"
@@ -644,6 +697,29 @@ files = [
 ]
 
 [[package]]
+name = "s3transfer"
+version = "0.10.0"
+requires_python = ">= 3.8"
+summary = "An Amazon S3 Transfer Manager"
+dependencies = [
+    "botocore<2.0a.0,>=1.33.2",
+]
+files = [
+    {file = "s3transfer-0.10.0-py3-none-any.whl", hash = "sha256:3cdb40f5cfa6966e812209d0994f2a4709b561c88e90cf00c2696d2df4e56b2e"},
+    {file = "s3transfer-0.10.0.tar.gz", hash = "sha256:d0c8bbf672d5eebbe4e57945e23b972d963f07d82f661cabf678a5c88831595b"},
+]
+
+[[package]]
+name = "six"
+version = "1.16.0"
+requires_python = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*"
+summary = "Python 2 and 3 compatibility utilities"
+files = [
+    {file = "six-1.16.0-py2.py3-none-any.whl", hash = "sha256:8abb2f1d86890a2dfb989f9a77cfcfd3e47c2a354b01111771326f8aa26e0254"},
+    {file = "six-1.16.0.tar.gz", hash = "sha256:1e61c37477a1626458e36f7b1d82aa5c9b094fa4802892072e49de9c60c4c926"},
+]
+
+[[package]]
 name = "sniffio"
 version = "1.3.0"
 requires_python = ">=3.7"
@@ -659,7 +735,7 @@ version = "2.0.23"
 requires_python = ">=3.7"
 summary = "Database Abstraction Library"
 dependencies = [
-    "greenlet!=0.4.17; platform_machine == \"aarch64\" or (platform_machine == \"ppc64le\" or (platform_machine == \"x86_64\" or (platform_machine == \"amd64\" or (platform_machine == \"AMD64\" or (platform_machine == \"win32\" or platform_machine == \"WIN32\")))))",
+    "greenlet!=0.4.17; platform_machine == \"win32\" or platform_machine == \"WIN32\" or platform_machine == \"AMD64\" or platform_machine == \"amd64\" or platform_machine == \"x86_64\" or platform_machine == \"ppc64le\" or platform_machine == \"aarch64\"",
     "typing-extensions>=4.2.0",
 ]
 files = [
@@ -752,12 +828,12 @@ files = [
 
 [[package]]
 name = "urllib3"
-version = "2.1.0"
-requires_python = ">=3.8"
+version = "2.0.7"
+requires_python = ">=3.7"
 summary = "HTTP library with thread-safe connection pooling, file post, and more."
 files = [
-    {file = "urllib3-2.1.0-py3-none-any.whl", hash = "sha256:55901e917a5896a349ff771be919f8bd99aff50b79fe58fec595eb37bbc56bb3"},
-    {file = "urllib3-2.1.0.tar.gz", hash = "sha256:df7aa8afb0148fa78488e7899b2c59b5f4ffcfa82e6c54ccb9dd37c1d7b52d54"},
+    {file = "urllib3-2.0.7-py3-none-any.whl", hash = "sha256:fdb6d215c776278489906c2f8916e6e7d4f5a9b602ccbcfdf7f016fc8da0596e"},
+    {file = "urllib3-2.0.7.tar.gz", hash = "sha256:c97dfde1f7bd43a71c8d2a58e369e9b2bf692d1334ea9f9cae55add7d0dd0f84"},
 ]
 
 [[package]]
@@ -786,7 +862,7 @@ dependencies = [
     "python-dotenv>=0.13",
     "pyyaml>=5.1",
     "uvicorn==0.24.0.post1",
-    "uvloop!=0.15.0,!=0.15.1,>=0.14.0; sys_platform != \"win32\" and (sys_platform != \"cygwin\" and platform_python_implementation != \"PyPy\")",
+    "uvloop!=0.15.0,!=0.15.1,>=0.14.0; (sys_platform != \"cygwin\" and sys_platform != \"win32\") and platform_python_implementation != \"PyPy\"",
     "watchfiles>=0.13",
     "websockets>=10.4",
 ]

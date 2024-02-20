@@ -10,7 +10,8 @@ from sqlalchemy.ext.asyncio import (
 )
 
 from simplecrud.database.model import Base
-from simplecrud.settings import MySqlSettings
+from simplecrud.settings import get_mysql_settings
+from simplecrud.util.secret_manager_util import get_string_secret
 
 _engine: AsyncEngine
 _async_session_maker: async_sessionmaker[AsyncSession]
@@ -18,15 +19,16 @@ _async_session_maker: async_sessionmaker[AsyncSession]
 
 @asynccontextmanager
 async def generate_async_engine() -> AsyncGenerator[None, None]:
-    mysql_settings = MySqlSettings()
-    connect_string = str(mysql_settings.url)
+    if get_mysql_settings().url is None:
+        get_mysql_settings().url = await get_string_secret("MYSQL_URL")
+    connect_string = str(get_mysql_settings().url)
     logging.info("creating async engine")
     global _engine, _async_session_maker
     _engine = create_async_engine(
         connect_string,
         connect_args={"init_command": "SET SESSION time_zone='+00:00'"},
-        pool_size=mysql_settings.pool_size,
-        max_overflow=mysql_settings.max_overflow,
+        pool_size=get_mysql_settings().pool_size,
+        max_overflow=get_mysql_settings().max_overflow,
         pool_recycle=270,
         echo=False,
         query_cache_size=0,
